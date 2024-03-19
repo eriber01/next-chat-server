@@ -2,15 +2,15 @@ import AppDataSource from '../../../config/data-source';
 import { Channels } from '../../Entity/Channels';
 import { Chats } from '../../Entity/Chats';
 import { UserChannels } from '../../Entity/UserChannels';
-import { onSaveChatI } from './interfaces';
+import { onSaveChatI } from './interface';
 
-export const onSaveChats = async (data: onSaveChatI) => {
+export const onSaveChats = async (data: onSaveChatI): Promise<Chats> => {
   const repoChannel = AppDataSource.getRepository(Channels)
+  const repoUserChanel = AppDataSource.getRepository(UserChannels)
 
   try {
 
-    await AppDataSource.transaction(async txn => {
-
+    const res = await AppDataSource.transaction(async txn => {
 
       let channelId = data.channelId
 
@@ -19,7 +19,10 @@ export const onSaveChats = async (data: onSaveChatI) => {
         channelId = channel.id
       }
 
-      const payloadUserChannel = {
+      const userChanel = await repoUserChanel.findOne({ where: { channelId, userId: data.userId } })
+
+      const payloadUserChannel: UserChannels = {
+        id: userChanel?.id,
         userId: data.userId,
         channelId,
       }
@@ -35,6 +38,8 @@ export const onSaveChats = async (data: onSaveChatI) => {
 
       return chat
     })
+
+    return res
   } catch (error) {
     console.log(error);
     throw new Error("Error Send the Chat");
