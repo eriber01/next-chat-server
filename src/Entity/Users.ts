@@ -12,14 +12,20 @@ export class Users {
   @Column({ name: 'name' })
   name: string;
 
-  @Column({ name: 'auth_id' })
-  authId: string;
+  @Column({ name: 'email' })
+  email: string;
+
+  @Column({ name: 'provider', nullable: true })
+  provider?: string
 
   @Column({ name: 'nick_name', nullable: true })
   nickName?: string;
 
   @Column({ name: 'pass', nullable: true })
-  pass?: string;
+  pass: string;
+
+  @Column({ name: 'is_new', default: false })
+  isNew: boolean;
 
   @OneToMany(() => Chats, chats => chats.user)
   chats: Chats[]

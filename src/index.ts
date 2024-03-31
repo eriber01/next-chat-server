@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 import AppDataSource from "../config/data-source";
 import { onSaveChats } from './modules/Chats/actions';
 import { onSaveChatI } from './modules/Chats/interface';
+import routes from './Routes'
 const app = express()
 
 import { createClient } from "redis";
@@ -13,6 +14,9 @@ import { getChannelsForUser } from './modules/Channels/actions';
 
 
 const httpServer = createServer(app)
+
+app.use(express.json())
+app.use('/api/next-chats', routes)
 
 const PORT = process.env.PORT || 3001
 
