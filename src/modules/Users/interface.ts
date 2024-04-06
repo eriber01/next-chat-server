@@ -5,7 +5,7 @@ export interface validateUserExistI {
 
 export type authType = 'login' | 'register'
 
-export interface createUserI {
+export interface AuthenticationUserI {
   id?: number
   name: string
   email: string
@@ -14,11 +14,13 @@ export interface createUserI {
   nickName?: string
   isNew?: boolean
   type?: authType
+  createdAt?: string
+  updatedAt?: string
 }
 
-export interface resCreateUserI {
+export interface resAuthenticationUserI {
   authorize: boolean
-  user: createUserI | null
+  user: AuthenticationUserI | null
   error?: string | null
   status: number
 }

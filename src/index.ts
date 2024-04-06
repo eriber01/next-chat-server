@@ -16,6 +16,7 @@ import { getChannelsForUser } from './modules/Channels/actions';
 const httpServer = createServer(app)
 
 app.use(express.json())
+
 app.use('/api/next-chats', routes)
 
 const PORT = process.env.PORT || 3001
